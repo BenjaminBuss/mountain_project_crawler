@@ -31,7 +31,7 @@ To get a local copy up and running follow these simple steps.
 This is an example of how to list things you need to use the software and how to install them.
 * npm
 ```sh
-npm install npm@latest -g
+sudo apt-get install python3 python3-dev python-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev
 ```
 
 ### Installation
@@ -45,7 +45,7 @@ git clone https://github.com/BenjaminBuss/mountain_project_scraper.git
 npm install
 ```
 
-
+https://github.com/aivarsk/scrapy-proxies
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -53,7 +53,16 @@ npm install
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
 Before running the script, you need to set the `FEED` to your prefered export method. An Amazon S3 Bucket was originally used. For more information on Feed Exports check out the Scrapy documentation [here](https://docs.scrapy.org/en/latest/topics/feed-exports.html). 
+```
+scrapy crawl mpScraper -a domain='https://www.mountainproject.com/area/118272520/wales-canyon'
+```
 
+If you'd like to save a bit of time, you can use the `pages` argument to limit the max number of pages(of ticks) you will scrape from each user. 
+
+Alternatively you can use the pages argument
+```
+scrapy crawl mpScraper -a domain='https://www.mountainproject.com/area/118272520/wales-canyon' -a pages=2
+```
 
 ### Data Format
 

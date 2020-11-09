@@ -7,16 +7,27 @@ import scrapy
 #from scrapy.crawler import CrawlerProcess
 #import numpy as np
 import re
+#import scrapy_proxies
+
 
 def strip_id(url):
     temp_regex = re.findall(r'\d+', url)
     temp_stripped = list(map(int, temp_regex))
     return temp_stripped
 
+
+def return_ele(x):
+    try:
+        return x[1]
+    except IndexError:
+        return 1
+
+
 route_info = []  # np.array()
 area_codes = []  # np.array()
 route_codes = []  # np.array()
 user_codes = []  # np.array()
+
 
 class tickData(scrapy.Item):
     user_id = scrapy.Field()
@@ -24,6 +35,7 @@ class tickData(scrapy.Item):
     route_type = scrapy.Field()
     route_grade = scrapy.Field()
     route_notes = scrapy.Field()
+
 
 class routeData(scrapy.Item):
     route_id = scrapy.Field()
@@ -34,12 +46,18 @@ class routeData(scrapy.Item):
 class ProjectSpider(scrapy.Spider):
     name = 'mpScraper'
     allowed_domains = ['mountainproject.com']
-    start_urls = ['https://www.mountainproject.com/area/118272520/wales-canyon']
+    #start_urls = ['https://www.mountainproject.com/area/118272520/wales-canyon']
 
     route_info = []  # np.array()
     area_codes = []  # np.array()
     route_codes = []  # np.array()
     user_codes = []  # np.array()
+
+    def __init__(self, domain='', pages='10', *args, **kwargs):
+        super(ProjectSpider, self).__init__(*args, **kwargs)
+        #self.start_urls = [f'https://www.mountainproject.com/area/{domain}']
+        self.start_urls = [f'{domain}']
+        self.page_max = int(f'{pages}')
 
     def parse(self, response):
         # area_name = response.css('div.mp-sidebar a[href*=area] ::text').getall()
@@ -119,13 +137,16 @@ class ProjectSpider(scrapy.Spider):
             yield response.follow(url=url, callback=self.parse_user)
 
     def parse_user(self, response):
-        user_id = strip_id(response.url)
+        stripped = strip_id(response.url)
+        user_id = stripped[0]
         user_ticks = response.css('a[href*=route]::attr(href)').getall()
         tick_grades = response.css('span.rateYDS::text').getall()
         tick_type = response.css('span.small.text-warm.pl-half span:nth-child(2) ::text').getall()
         tick_details = response.css('td.text-warm.small i ::text').getall()
 
         pagination = response.css('div.pagination a:nth-child(4) ::attr(href)').get()
+
+        page_number = return_ele(stripped)
 
         route_id = []
 
@@ -143,6 +164,8 @@ class ProjectSpider(scrapy.Spider):
             yield tick
 
         if not pagination:
+            return
+        elif page_number >= self.page_max:
             return
         else:
             yield response.follow(url=pagination, callback=self.parse_user)
