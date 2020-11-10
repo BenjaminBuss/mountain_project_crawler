@@ -2,7 +2,6 @@
 # October 25th 2020
 # Mountain Project Scraping idea draft
 
-
 import scrapy
 #from scrapy.crawler import CrawlerProcess
 #import numpy as np
@@ -23,12 +22,12 @@ def return_ele(x):
         return 1
 
 
-route_info = []  # np.array()
 area_codes = []  # np.array()
 route_codes = []  # np.array()
 user_codes = []  # np.array()
 
 
+# Initializes scrapy Items for data pipeline.
 class tickData(scrapy.Item):
     user_id = scrapy.Field()
     route_id = scrapy.Field()
@@ -48,18 +47,20 @@ class ProjectSpider(scrapy.Spider):
     allowed_domains = ['mountainproject.com']
     #start_urls = ['https://www.mountainproject.com/area/118272520/wales-canyon']
 
-    route_info = []  # np.array()
     area_codes = []  # np.array()
     route_codes = []  # np.array()
     user_codes = []  # np.array()
 
     def __init__(self, domain='', pages='10', *args, **kwargs):
+        # Provides ability to specify start URL from the command line.
         super(ProjectSpider, self).__init__(*args, **kwargs)
         #self.start_urls = [f'https://www.mountainproject.com/area/{domain}']
         self.start_urls = [f'{domain}']
         self.page_max = int(f'{pages}')
 
     def parse(self, response):
+        # Parses original start area and iterates through all sub areas
+
         # area_name = response.css('div.mp-sidebar a[href*=area] ::text').getall()
         area_link = response.css('div.mp-sidebar a[href*=area]::attr(href)').getall()
 

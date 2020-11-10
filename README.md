@@ -1,6 +1,8 @@
 # Mountain Project Tick Scraper
 
-Have you ever wanted a near unending amount of very niche data? Do you want to feel bad about pulling all this data from a site that provides a quality service for free? Well, I have just the script for you. This poorly made scraper is designed to take a mountain project area(E.g `https://www.mountainproject.com/area/105716826/saint-george`), and scrape all areas and subareas. Then parse and yield some basic route data, before finally, pulling all ticks for each area and parsing out all of their previous ticks.
+Have you ever wanted a near unending amount of very niche data? Do you want to feel bad about pulling all this data from a site that provides a quality service for free? Well, I have just the script for you. 
+
+This poorly made scraper is designed to take a mountain project area(E.g `https://www.mountainproject.com/area/105716826/saint-george`), and scrape all areas and subareas. Then parse and yield some basic route data, before finally, pulling all ticks for each route, and parsing out all of the users previous ticks.
 
 ## Table of Contents
 
@@ -9,14 +11,7 @@ Have you ever wanted a near unending amount of very niche data? Do you want to f
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
 * [Usage](#usage)
-  * [Data Format](#data-format)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [License](#license)
-* [Contact](#contact)
-* [Acknowledgements](#acknowledgements)
-
-
+  * [Data Format](#yielded-data-formatting)
 
 
 ## About The Project
@@ -47,24 +42,33 @@ npm install
 
 https://github.com/aivarsk/scrapy-proxies
 
-<!-- USAGE EXAMPLES -->
+
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Before running the script, you need to set the `FEED` to your preferred export method. An Amazon S3 Bucket was originally used. For more information on Feed Exports check out the Scrapy documentation [here](https://docs.scrapy.org/en/latest/topics/feed-exports.html). 
 
-Before running the script, you need to set the `FEED` to your prefered export method. An Amazon S3 Bucket was originally used. For more information on Feed Exports check out the Scrapy documentation [here](https://docs.scrapy.org/en/latest/topics/feed-exports.html). 
+After specifying the initial data feeds the scraper is run like any other scrapy spider. You navigate to the projects directory
+
+When running the mpScraper spider you have two possible arguments.
+
+* Domain: string, *required*, the initial URL of the area to scrape.
+    * EG: https://www.mountainproject.com/area/118272520/wales-canyon
+* Pages: int, default 10, the number of pages of user ticks to scrape(per user).
+
+Example of scraping the Wales Canyon area:
 ```
 scrapy crawl mpScraper -a domain='https://www.mountainproject.com/area/118272520/wales-canyon'
 ```
 
-If you'd like to save a bit of time, you can use the `pages` argument to limit the max number of pages(of ticks) you will scrape from each user. 
-
-Alternatively you can use the pages argument
+Example using the pages argument to limit the number of pages you scrape to save time and server load.
 ```
 scrapy crawl mpScraper -a domain='https://www.mountainproject.com/area/118272520/wales-canyon' -a pages=2
 ```
 
-### Data Format
+For more documentation on executing scrapy spiders check out the documentation [here](https://docs.scrapy.org/en/latest/topics/commands.html). For more details on spider arguments you can find the documentation [here](https://docs.scrapy.org/en/latest/topics/spiders.html#spider-arguments).
+
+
+### Yielded Data Formatting 
 
 Three different scrapy items are returned through the running of the script:
 
@@ -89,45 +93,4 @@ route_notes | *string* | Any notes about send type(flash, onsight, attempt) as w
 
 
 3. **Route Ticks**
-
-
-
-
-
-# All of this may go unused
-
-<!-- ROADMAP -->
-## Roadmap
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a list of proposed features (and known issues).
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
-
-
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
-
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
-
 
