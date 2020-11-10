@@ -26,9 +26,11 @@ This scraper is designed for you to be able to scrape two main pieces of data fr
 
 How you store and use this data is up to you.
 
+
 ## Getting Started
 
 To get a local copy up and running follow these simple steps.
+
 
 ### Prerequisites
 
@@ -38,11 +40,12 @@ This is an example of how to list things you need to use the software and how to
 sudo apt-get install python3 python3-dev python-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev
 ```
 
+
 ### Installation
 
 1. Clone the repo
 ```sh
-git clone https://github.com/BenjaminBuss/mountain_project_scraper.git
+git clone https://github.com/BenjaminBuss/mountain_project_crawler.git
 ```
 2. Install NPM packages
 ```sh
@@ -101,7 +104,6 @@ route_grade | *string* | The routes YDS or V-scale grade.
 route_notes | *string* | Any notes about send type(flash, onsight, attempt) as well as any additional information users provided.
 
 
-
 ## Roadmap
 
 Until I figure out how this open issues things works I'm going to keep a light list here
@@ -111,7 +113,7 @@ Until I figure out how this open issues things works I'm going to keep a light l
 * Add ability to scrape more user data(forum posts)
 
 
-See the [open issues](https://github.com/benjaminbuss/mountain_project_scraper/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/benjaminbuss/mountain_project_crawler/issues) for a list of proposed features (and known issues).
 
 
 ## Contributing

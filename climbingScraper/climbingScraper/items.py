@@ -8,11 +8,6 @@
 import scrapy
 
 
-class ClimbingscraperItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
-
 # Initializes scrapy Items for tickScraper spider
 class tickData(scrapy.Item):
     user_id = scrapy.Field()
