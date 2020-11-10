@@ -47,9 +47,9 @@ class ProjectSpider(scrapy.Spider):
     allowed_domains = ['mountainproject.com']
     #start_urls = ['https://www.mountainproject.com/area/118272520/wales-canyon']
 
-    area_codes = []  # np.array()
-    route_codes = []  # np.array()
-    user_codes = []  # np.array()
+#    area_codes = []  # np.array()
+#    route_codes = []  # np.array()
+#    user_codes = []  # np.array()
 
     def __init__(self, domain='', pages='10', *args, **kwargs):
         # Provides ability to specify start URL from the command line.
@@ -65,17 +65,18 @@ class ProjectSpider(scrapy.Spider):
         area_link = response.css('div.mp-sidebar a[href*=area]::attr(href)').getall()
 
         if len(area_link) <= 0:
+        # if there are no subareas, iterate through routes
             route_link = response.css('div.mp-sidebar a[href*=route]::attr(href)').getall()
             for url in route_link:
-                if strip_id(url) in route_codes:
-                    break
-                else:
-                    route_codes.append(strip_id(url))
-                    yield response.follow(url=url, callback=self.parse_routes)
+#                if strip_id(url) in route_codes:
+#                    break
+#                else:
+#                    route_codes.append(strip_id(url))
+                yield response.follow(url=url, callback=self.parse_routes)
         else:
         # Iterate through subarea urls, add to an array, send them to be parsed
             for url in area_link:
-                area_codes.append(strip_id(url))
+#                area_codes.append(strip_id(url))
                 yield response.follow(url=url, callback=self.parse_subareas)
 
     def parse_subareas(self, response):
@@ -84,18 +85,18 @@ class ProjectSpider(scrapy.Spider):
 
         if len(area_link) == 0 and len(route_link) != 0:
             for url in route_link:
-                if strip_id(url) in route_codes:
-                    break
-                else:
-                    route_codes.append(strip_id(url))
-                    yield response.follow(url=url, callback=self.parse_routes)
+#                if strip_id(url) in route_codes:
+#                    break
+#                else:
+#                    route_codes.append(strip_id(url))
+                yield response.follow(url=url, callback=self.parse_routes)
         else:
             for url in area_link:
-                if strip_id(url) in area_codes:
-                    break
-                else:
-                    area_codes.append(strip_id(url))
-                    yield response.follow(url=url, callback=self.parse_subareas)
+#                if strip_id(url) in area_codes:
+#                    break
+#                else:
+#                    area_codes.append(strip_id(url))
+                yield response.follow(url=url, callback=self.parse_subareas)
 
     def parse_routes(self, response):
         route_name = response.css('div.col-md-9.float-md-right.mb-1 h1::text').get().strip()
@@ -125,11 +126,11 @@ class ProjectSpider(scrapy.Spider):
 
             yield {'route_id': route_id[0], 'user_id': user_id}
 
-            if user_id in user_codes:
-                break
-            else:
-                user_codes.append(user_id)
-                yield response.follow(url=url, callback=self.open_user)
+#            if user_id in user_codes:
+#                break
+#            else:
+#                user_codes.append(user_id)
+            yield response.follow(url=url, callback=self.open_user)
 
     def open_user(self, response):
         user_ticks = response.css('div.section-title a[href*=ticks]::attr(href)').getall()
@@ -170,5 +171,3 @@ class ProjectSpider(scrapy.Spider):
             return
         else:
             yield response.follow(url=pagination, callback=self.parse_user)
-
-
