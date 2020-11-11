@@ -9,11 +9,38 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
+import os
+#from os.path import join, dirname
+#from dotenv import load_dotenv, find_dotenv
+
 BOT_NAME = 'climbingScraper'
 
 SPIDER_MODULES = ['climbingScraper.spiders']
 NEWSPIDER_MODULE = 'climbingScraper.spiders'
 
+#dotenv_path = join(dirname(__file__), '.env')
+#load_dotenv(dotenv_path)
+
+# AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+# AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+
+
+FEED_URI = 's3://mpcrawlerdump/%(name)s/%(time)s.csv'
+FEED_FORMAT = 'csv'
+
+ITEM_PIPELINE = {
+    'climbingScraper.pipelines.itemPipeline':1,
+#    'climbingScraper.pipelines.handleRoute':1,
+#'scrapy.pipelines.files.S3FilesStore': 1
+}
+
+# Configure item pipelines
+# See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+#ITEM_PIPELINES = {
+#    's3pipeline.S3Pipeline': 100,
+#}
+
+#S3PIPELINE_URL = 's3://mpcrawlerdump/{name}/{time}/items.{chunk:07d}.jl.gz'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'climbingScraper (+http://www.yourdomain.com)'
@@ -60,12 +87,6 @@ COOKIES_ENABLED = False
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
 #EXTENSIONS = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
-#}
-
-# Configure item pipelines
-# See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'climbingScraper.pipelines.ClimbingscraperPipeline': 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
