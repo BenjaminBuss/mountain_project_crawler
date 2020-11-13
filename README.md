@@ -19,12 +19,27 @@ Have you ever wanted a near unending amount of very niche data? Do you want to f
 
 ## About The Project
 
-This scraper is designed for you to be able to scrape two main pieces of data from any Mountain Project Area, such as [St. George]('https://www.mountainproject.com/area/105716826/saint-george`).
+This scraper is designed for you to be able to scrape two main pieces of data from any Mountain Project Area, such as [St. George](https://www.mountainproject.com/area/105716826/saint-george), and export it to an AWS S3 bucket.
 
-1. All of the routes contained that area, and any and all subareas associated it, basic route information like name, grade, and MP identifier are returned(*I want to add more info into this, stars, shared data, area/sub-area information etc*)
-2. All ticks for each of these routes, and a pre-specified number of previous ticks for all of those users.
+1. All of the routes contained that area(or it's subareas), and basic information like route name, grade, and MP identifier are returned(*I want to add more info into this, stars, shared data, area/sub-area information etc*)
+2. All of the ticks for each of those routes, and the users who ticked them.
+3. All of those users other ticks, up to a pre-specified number of previous ticks.
 
-How you store and use this data is up to you.
+It's currently not the most efficient and missing some nice pieces of information, but hopefully it'll
+
+**E.G.** https://www.mountainproject.com/area/113250571/watch-tower-boulder
+
+Returned data:
+```
+routeData = { route_id = 113250669, route_name = 'Pending Approval', route_grade = 'V2' }
+
+userTicks = { route_id = 113250669, user_id = 7040154 }
+
+tickData  = { route_id = 109593707, user_id = 7040154, route_type = Boulder, route_grade = 'V6-', route_notes = 'Nov 26, 2017' }, 
+
+   { route_id = 113250669, user_id = 7040154, route_type = Boulder, route_grade = 'V2' , route_notes = 'Jul 11, 2017' }
+```
+
 
 
 ## Getting Started
@@ -34,8 +49,12 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
+
+* python3
+* scrapy
+* botocore
+* python-dotenv
+
 ```sh
 sudo apt-get install python3 python3-dev python-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev
 ```
@@ -47,12 +66,23 @@ sudo apt-get install python3 python3-dev python-pip libxml2-dev libxslt1-dev zli
 ```sh
 git clone https://github.com/BenjaminBuss/mountain_project_crawler.git
 ```
-2. Install NPM packages
+2. Install additional Python packages
 ```sh
-npm install
+pip install scrapy botocore python-dotenv
 ```
 
-https://github.com/aivarsk/scrapy-proxies
+Botocore is required for using S3 for more information you can check out the repository [here](https://github.com/boto/botocore)
+
+Additionally, `python-dotenv` is used in setting.py to provide a rudimentary level of security to the AWS credentials. For more information and a walk through on how to use it check out the repository [here](https://github.com/theskumar/python-dotenv).
+
+To set up your AWS credentials you need to create a `.env` file in the same level as `setting.py`, in this file you just need to add the following two lines, obviously replacing `ACCESS_KEY` AND `SECRET_KEY` with their respective values.
+
+```
+AWS_ACCESS_KEY_ID =  [ACCESS_KEY]
+AWS_SECRET_ACCESS_KEY = [SECRET_KEY]
+```
+
+After adding in the credentials you need to updated the bucket name in all three places in the `FEEDS` argument of `settings.py` from *mpcrawlerdump* to your buckets name.
 
 
 ## Usage
@@ -76,9 +106,6 @@ scrapy crawl mpScraper -a domain='https://www.mountainproject.com/area/118272520
 ```
 
 For more documentation on executing scrapy spiders check out the documentation [here](https://docs.scrapy.org/en/latest/topics/commands.html). For more details on spider arguments you can find the documentation [here](https://docs.scrapy.org/en/latest/topics/spiders.html#spider-arguments).
-
-In the `settings.py` there are several settings that currently aren't set to the default.
-`DOWNLOAD_DELAY` is set to 2 to help reduce potential server stress. And `ENABLED COOKIES` is set to False.
 
 
 ### Yielded Data Formatting 
@@ -114,6 +141,10 @@ Until I figure out how this open issues things works I'm going to keep a light l
 
 
 See the [open issues](https://github.com/benjaminbuss/mountain_project_crawler/issues) for a list of proposed features (and known issues).
+
+
+https://github.com/aivarsk/scrapy-proxies
+
 
 
 ## Contributing
