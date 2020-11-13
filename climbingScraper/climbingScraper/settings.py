@@ -25,16 +25,33 @@ ITEM_PIPELINE = {
     'scrapy.pipelines.files.S3FilesStore':100,
 }
 
-FEED_URI = 's3://mpcrawlerdump/%(name)s/%(time)s.csv'
-FEED_FORMAT = 'csv'
+# https://docs.scrapy.org/en/latest/topics/feed-exports.html#feeds
+FEEDS = {
+    's3://mpcrawlerdump/%(name)s/tickData/%(time)s.csv': {
+        'format': 'csv',
+        'fields': ['user_id', 'route_id', 'route_type', 'route_grade', 'route_notes'],
+    },
+    's3://mpcrawlerdump/%(name)s/routeData/%(time)s.csv': {
+        'format': 'csv',
+        'fields': ['id_route', 'name_route', 'grade_route'],
+    },
+    's3://mpcrawlerdump/%(name)s/userTicks/%(time)s.csv': {
+        'format': 'csv',
+        'fields': ['user', 'route'],
+    },
+}
+
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
-# See also autothrottle settings and docs
 DOWNLOAD_DELAY = 2
 
 # Disable cookies (enabled by default)
 COOKIES_ENABLED = False
+
+# DOESN'T DIFFERENTIATE ITEMS AT ALL
+#FEED_URI = 's3://mpcrawlerdump/%(name)s/tickData/%(time)s.csv'
+#FEED_FORMAT = 'csv'

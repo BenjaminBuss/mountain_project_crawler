@@ -17,6 +17,10 @@ class tickData(scrapy.Item):
     route_notes = scrapy.Field()
 
 class routeData(scrapy.Item):
-    route_id = scrapy.Field()
-    route_name = scrapy.Field()
-    route_grade = scrapy.Field()
+    id_route = scrapy.Field()
+    name_route = scrapy.Field()
+    grade_route = scrapy.Field()
+
+class userTicks(scrapy.Item):
+    user = scrapy.Field()
+    route = scrapy.Field()

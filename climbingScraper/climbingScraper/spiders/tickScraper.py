@@ -6,7 +6,7 @@
 
 import scrapy
 import re
-from ..items import tickData, routeData
+from ..items import tickData, routeData, userTicks
 
 def strip_id(url):
     temp_regex = re.findall(r'\d+', url)
@@ -54,20 +54,27 @@ class ProjectSpider(scrapy.Spider):
         route_id = int(strip_id(route_subinfo)[0])
 
         route_info = routeData()
-        route_info['route_id'] = route_id
-        route_info['route_name'] = route_name
-        route_info['route_grade'] = route_grade
+        route_info['id_route'] = route_id
+        route_info['name_route'] = route_name
+        route_info['grade_route'] = route_grade
 
         yield route_info
         yield response.follow(url=route_subinfo, callback=self.get_users)
 
     def get_users(self, response):
         # Correlates ticks / route_id to user_id
+        route_id = strip_id(response.url)
         route_ticks = response.css('.col-lg-6  a[href*=user]::attr(href)').getall()
 
         for url in route_ticks:
             tick_url = url + '/ticks'
+            user_id = strip_id(url)
 
+            ticks = userTicks()
+            ticks['user'] = user_id[0]
+            ticks['route'] = route_id[0]
+
+            yield ticks
             yield response.follow(url=tick_url, callback=self.parse_user)
 
     def parse_user(self, response):
@@ -92,7 +99,7 @@ class ProjectSpider(scrapy.Spider):
                 # For cases like: https://www.mountainproject.com/route-guide
                 continue
             else:
-                route_id.append(tick_id)
+                route_id.append(tick_id[0])
 
         for item in zip(route_id, tick_type, tick_grades, tick_details):
             tick = tickData()

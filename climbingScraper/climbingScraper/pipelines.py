@@ -6,7 +6,7 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 # Thanks https://stackoverflow.com/questions/32743469/scrapy-python-multiple-item-classes-in-one-pipeline
 
-from .items import tickData, routeData
+from .items import tickData, routeData, userTicks
 
 
 class itemPipeline(object):
@@ -18,6 +18,8 @@ class itemPipeline(object):
             return self.handleTick(item, spider)
         if isinstance(item, routeData):
             return self.handleRoute(item, spider)
+        if isinstance(item, userTicks):
+            return self.handleUT(item,spider)
 
     def handleTick(self, item, spider):
         # Handle Comment here, return item
@@ -27,4 +29,9 @@ class itemPipeline(object):
     def handleRoute(self, item, spider):
         # Handle profile here, return item
         self.storeRoute(item)
+        return item
+
+    def handleUT(self, item, spider):
+        # Handle user tick data
+        self.storeThing(item)
         return item
