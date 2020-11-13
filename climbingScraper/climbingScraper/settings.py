@@ -3,7 +3,6 @@
 # Scrapy settings for climbingScraper project
 #
 
-
 import os
 from os.path import join, dirname
 from dotenv import load_dotenv
@@ -13,6 +12,7 @@ BOT_NAME = 'climbingScraper'
 SPIDER_MODULES = ['climbingScraper.spiders']
 NEWSPIDER_MODULE = 'climbingScraper.spiders'
 
+# AWS Authentication
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
@@ -40,7 +40,6 @@ FEEDS = {
         'fields': ['user', 'route'],
     },
 }
-
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True

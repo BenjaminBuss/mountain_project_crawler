@@ -20,12 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e6d6ac59-ca1a-461b-a97c-7c0a14f2a7b5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/benjamin.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/mountain_project_crawler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mountain_project_crawler.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/climbingScraper/climbingScraper/pipelines.py" beforeDir="false" afterPath="$PROJECT_DIR$/climbingScraper/climbingScraper/pipelines.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/climbingScraper/climbingScraper/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/climbingScraper/climbingScraper/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -86,6 +82,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="1763" y="1458" width="615" height="357" key="#Notifications" timestamp="1605053145831">
