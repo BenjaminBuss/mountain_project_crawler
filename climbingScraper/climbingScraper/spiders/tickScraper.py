@@ -47,16 +47,25 @@ class ProjectSpider(scrapy.Spider):
         # Parses route information and checks users ticks
         route_name = response.css('div.col-md-9.float-md-right.mb-1 h1::text').get().strip()
         route_grade = response.css("span.rateYDS::text").get()
-        # route_stars = response.css("[id='route-star-avg'] *::text").getall()  # needs some cleaning
-        # route_share = GET SHARED DATE?? IT'S IN A TABLE
-        route_subinfo = response.css('a.show-tooltip ::attr(href)').get()
+        route_stars = response.css("[id*='starsWithAvgText']::text").getall()[1].strip()
+        route_addinfo = [item.strip() for item in response.css("table[class='description-details'] > tr > td::text").getall()]
+        route_type = route_addinfo[1]
+        route_fa = route_addinfo[3]
+        route_views = route_addinfo[5]
+        route_date = route_addinfo[8]
 
+        route_subinfo = response.css('a.show-tooltip ::attr(href)').get()
         route_id = int(strip_id(route_subinfo)[0])
 
         route_info = routeData()
         route_info['id_route'] = route_id
         route_info['name_route'] = route_name
         route_info['grade_route'] = route_grade
+        route_info['stars_route'] = route_stars
+        route_info['type_route'] = route_type
+        route_info['fa_route'] = route_fa
+        route_info['views_route'] = route_views
+        route_info['date_route'] = route_date
 
         yield route_info
         yield response.follow(url=route_subinfo, callback=self.get_users)
@@ -84,6 +93,7 @@ class ProjectSpider(scrapy.Spider):
         page_number = return_ele(stripped)  # just gets page number
 
         user_ticks = response.css('a[href*=route]::attr(href)').getall()
+        tick_names = response.css("[class*='route-table'] a[href*=route] >strong *::text").getall()
         tick_grades = response.css('span.rateYDS::text').getall()
         tick_type = response.css('span.small.text-warm.pl-half span:nth-child(2) ::text').getall()
         tick_details = response.css('td.text-warm.small i ::text').getall()
@@ -101,13 +111,14 @@ class ProjectSpider(scrapy.Spider):
             else:
                 route_id.append(tick_id[0])
 
-        for item in zip(route_id, tick_type, tick_grades, tick_details):
+        for item in zip(route_id, tick_type, tick_grades, tick_details, tick_names):
             tick = tickData()
             tick['user_id'] = user_id
             tick['route_id'] = item[0]
             tick['route_type'] = item[1]
             tick['route_grade'] = item[2]
             tick['route_notes'] = item[3]
+            tick['route_name'] = item[4]
 
             yield tick
 
