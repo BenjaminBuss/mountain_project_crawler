@@ -22,22 +22,22 @@ AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINE = {
-    'scrapy.pipelines.files.S3FilesStore':100,
+    'scrapy.pipelines.files.S3FilesStore':1000,
 }
 
 # https://docs.scrapy.org/en/latest/topics/feed-exports.html#feeds
 FEEDS = {
-    's3://mpcrawlerdump/%(name)s/tickData/%(time)s.csv': {
-        'format': 'csv',
-        'fields': ['user_id', 'route_id', 'route_type', 'route_grade', 'route_notes'],
-    },
     's3://mpcrawlerdump/%(name)s/routeData/%(time)s.csv': {
         'format': 'csv',
-        'fields': ['id_route', 'name_route', 'grade_route'],
+        'fields': ['id_route', 'name_route', 'grade_route', 'stars_route', 'type_route', 'fa_route', 'views_route', 'date_route'],
     },
     's3://mpcrawlerdump/%(name)s/userTicks/%(time)s.csv': {
         'format': 'csv',
         'fields': ['user', 'route'],
+    },
+    's3://mpcrawlerdump/%(name)s/tickData/%(time)s.csv': {
+        'format': 'csv',
+        'fields': ['user_id', 'route_id', 'route_type', 'route_grade', 'route_notes', 'route_name'],
     },
 }
 

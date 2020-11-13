@@ -19,9 +19,9 @@ Have you ever wanted a near unending amount of very niche data? Do you want to f
 
 ## About The Project
 
-This scraper is designed for you to be able to scrape two main pieces of data from any Mountain Project Area, such as [St. George](https://www.mountainproject.com/area/105716826/saint-george), and export it to an AWS S3 bucket.
+This scraper is designed for you to be able to scrape several pieces of data from any Mountain Project Area, and export it to an AWS S3 bucket.
 
-1. All of the routes contained that area(or it's subareas), and basic information like route name, grade, and MP identifier are returned(*I want to add more info into this, stars, shared data, area/sub-area information etc*)
+1. All of the routes contained that area(or it's subareas), and basic information like route name, grade, stars, shared date, MP identifier, and more are returned.
 2. All of the ticks for each of those routes, and the users who ticked them.
 3. All of those users other ticks, up to a pre-specified number of previous ticks.
 
@@ -31,13 +31,13 @@ It's currently not the most efficient and missing some nice pieces of informatio
 
 Returned data:
 ```
-routeData = { route_id = 113250669, route_name = 'Pending Approval', route_grade = 'V2' }
+routeData = { route_id = 113250669, route_name = 'Pending Approval', route_grade = 'V2', route_stars = 'Avg: 3.8 from 4 votes', route_type = 'Boulder, 30ft(9m)', route_fa = 'unknown', route_views = '496 total, 12/month', route_share = 'July 3, 2017' }
 
 userTicks = { route_id = 113250669, user_id = 7040154 }
 
-tickData  = { route_id = 109593707, user_id = 7040154, route_type = Boulder, route_grade = 'V6-', route_notes = 'Nov 26, 2017' }, 
+tickData  = { route_id = 109593707, user_id = 7040154, route_type = Boulder, route_grade = 'V6-', route_notes = 'Nov 26, 2017', route_name = 'The Round Room' }, 
 
-   { route_id = 113250669, user_id = 7040154, route_type = Boulder, route_grade = 'V2' , route_notes = 'Jul 11, 2017' }
+   { route_id = 113250669, user_id = 7040154, route_type = Boulder, route_grade = 'V2' , route_notes = 'Jul 11, 2017', route_name = 'Pending Approval' }
 ```
 
 
@@ -56,7 +56,7 @@ To get a local copy up and running follow these simple steps.
 * python-dotenv
 
 ```sh
-sudo apt-get install python3 python3-dev python-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev
+sudo apt-get install python3 python3-dev python-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev git
 ```
 
 
@@ -84,7 +84,6 @@ AWS_SECRET_ACCESS_KEY = [SECRET_KEY]
 
 After adding in the credentials you need to updated the bucket name in all three places in the `FEEDS` argument of `settings.py` from *mpcrawlerdump* to your buckets name.
 
-
 ## Usage
 
 Before running the script, you need to set the `FEED` to your preferred export method. An Amazon S3 Bucket was originally used. For more information on Feed Exports check out the Scrapy documentation [here](https://docs.scrapy.org/en/latest/topics/feed-exports.html), alternatively the [Data Format](#yielded-data-formatting) subsection has more information on what data is returned and how it is meant to be handled/stored.
@@ -110,7 +109,7 @@ For more documentation on executing scrapy spiders check out the documentation [
 
 ### Yielded Data Formatting 
 
-Two different scrapy items are returned through the running of the script:
+Three different scrapy items are returned through the running of the script:
 
 1. **Route Data**
 
@@ -119,8 +118,20 @@ Name | Type | Description
 route_id | *int* | Numerical identifier for the route pulled from the Mountain Project URL.
 route_name | *string* | The routes name.
 route_grade | *string* | The routes YDS or V-scale grade.
+route_stars | *string* | The number of stars(out of four), and opinions that lead to that rating.
+route_type | *string* | The type(Boulder, Sport, Trad, Alpine).
+route_fa | *string* | The first ascensionists name.
+route_views | *string* | The number of total views and views per week/month/year.
+route_date | *string* | The date the route was originally shared.
 
-2. **Tick Data**
+2. **User Ticks**
+
+Name | Type | Description
+---- | ---- | -----------
+user_id | *int* | Numerical identifier for the user pulled from the MP URL.
+route_id | *int* | Numerical identifier for the route pulled from the MP URL.
+
+3. **Tick Data**
 
 Name | Type | Description
 ---- | ---- | -----------
@@ -129,9 +140,18 @@ route_id | *int* | Numerical identifier for the route pulled from MP URL.
 route_type | *string* | Type(Boulder, Sport, Trad, Alpine).
 route_grade | *string* | The routes YDS or V-scale grade.
 route_notes | *string* | Any notes about send type(flash, onsight, attempt) as well as any additional information users provided.
+route_name | *string* | The name of the route.
 
+
+
+*
+*
+*
+*
 
 ## Roadmap
+
+**MY FAVORITE PAST TIME IS ADDING UNNEEDED SPACE BETWEEN PARAGRAPHS IN TEXT FILES BUT MARKDOWN DOESN'T LET ME**
 
 Until I figure out how this open issues things works I'm going to keep a light list here
 
