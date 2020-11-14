@@ -24,7 +24,7 @@ AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINE = {
-    'scrapy.pipelines.files.S3FilesStore':300,
+    'scrapy.pipelines.files.S3FilesStore':100,
 }
 
 # https://docs.scrapy.org/en/latest/topics/feed-exports.html#feeds
