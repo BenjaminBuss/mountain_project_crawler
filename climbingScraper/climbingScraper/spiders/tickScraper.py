@@ -58,6 +58,7 @@ class ProjectSpider(scrapy.Spider):
         route_id = int(strip_id(route_subinfo)[0])
 
         route_info = routeData()
+        route_info['id'] = 'route'
         route_info['id_route'] = route_id
         route_info['name_route'] = route_name
         route_info['grade_route'] = route_grade
@@ -81,6 +82,7 @@ class ProjectSpider(scrapy.Spider):
             user_id = strip_id(url)
 
             ticks = userTicks()
+            ticks['id'] = 'tick'
             ticks['user'] = user_id[0]
             ticks['route'] = route_id[0]
 
@@ -114,6 +116,7 @@ class ProjectSpider(scrapy.Spider):
 
         for item in zip(route_id, tick_type, tick_grades, tick_details, tick_names):
             tick = tickData()
+            tick['id'] = 'usti'
             tick['user_id'] = user_id
             tick['route_id'] = item[0]
             tick['route_type'] = item[1]
