@@ -7,7 +7,6 @@
 
 import scrapy
 
-
 # Initializes scrapy Items for tickScraper spider
 class routeData(scrapy.Item):
     id = scrapy.Field()

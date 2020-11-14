@@ -68,7 +68,6 @@ class ProjectSpider(scrapy.Spider):
         route_info['views_route'] = route_views
         route_info['date_route'] = route_date
 
-        print(route_id)
         yield route_info
         yield response.follow(url=route_subinfo, callback=self.get_users)
 
