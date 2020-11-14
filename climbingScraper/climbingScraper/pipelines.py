@@ -7,31 +7,29 @@
 # Thanks https://stackoverflow.com/questions/32743469/scrapy-python-multiple-item-classes-in-one-pipeline
 
 from .items import tickData, routeData, userTicks
+from scrapy.pipelines.files import S3FilesStore
 
 
-class itemPipeline(object):
+#class MultiS3(object):
 #    def process_item(self, item, spider):
 #        return item
 
-    def process_item(self, item, spider):
-        if isinstance(item, tickData):
-            return self.handleTick(item, spider)
-        if isinstance(item, routeData):
-            return self.handleRoute(item, spider)
-        if isinstance(item, userTicks):
-            return self.handleUT(item,spider)
+#    def process_item(self, item, spider):
+#        if isinstance(item, tickData):
+#            return self.handleTick(item, spider)
+#        if isinstance(item, routeData):
+#            return self.handleRoute(item, spider)
+#        if isinstance(item, userTicks):
+#            return self.handleUT(item,spider)
 
-    def handleTick(self, item, spider):
+#    def handleTick(self, item):
         # Handle Comment here, return item
-        self.storeTick(item)
-        return item
+#        return item
 
-    def handleRoute(self, item, spider):
+#    def handleRoute(self, item):
         # Handle profile here, return item
-        self.storeRoute(item)
-        return item
+#        return item
 
-    def handleUT(self, item, spider):
+#    def handleUT(self, item):
         # Handle user tick data
-        self.storeThing(item)
-        return item
+#        return item
