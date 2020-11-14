@@ -10,26 +10,23 @@ from .items import tickData, routeData, userTicks
 from scrapy.pipelines.files import S3FilesStore
 
 
-#class MultiS3(object):
-#    def process_item(self, item, spider):
-#        return item
+class MultiS3:
+    def process_item(self, item, spider):
+        if isinstance(item, tickData):
+            return self.handleTick(item)
+        if isinstance(item, routeData):
+            return self.handleRoute(item)
+        if isinstance(item, userTicks):
+            return self.handleUT(item)
 
-#    def process_item(self, item, spider):
-#        if isinstance(item, tickData):
-#            return self.handleTick(item, spider)
-#        if isinstance(item, routeData):
-#            return self.handleRoute(item, spider)
-#        if isinstance(item, userTicks):
-#            return self.handleUT(item,spider)
-
-#    def handleTick(self, item):
+    def handleTick(self, item):
         # Handle Comment here, return item
-#        return item
+        return item
 
-#    def handleRoute(self, item):
+    def handleRoute(self, item):
         # Handle profile here, return item
-#        return item
+        return item
 
-#    def handleUT(self, item):
+    def handleUT(self, item):
         # Handle user tick data
-#        return item
+        return item

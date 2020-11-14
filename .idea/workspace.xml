@@ -20,9 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e6d6ac59-ca1a-461b-a97c-7c0a14f2a7b5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/climbingScraper/climbingScraper/items.py" beforeDir="false" afterPath="$PROJECT_DIR$/climbingScraper/climbingScraper/items.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/climbingScraper/climbingScraper/pipelines.py" beforeDir="false" afterPath="$PROJECT_DIR$/climbingScraper/climbingScraper/pipelines.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/climbingScraper/climbingScraper/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/climbingScraper/climbingScraper/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/climbingScraper/climbingScraper/spiders/tickScraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/climbingScraper/climbingScraper/spiders/tickScraper.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
