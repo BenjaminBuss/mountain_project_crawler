@@ -25,9 +25,13 @@ This scraper is designed for you to be able to scrape several pieces of data fro
 2. All of the ticks for each of those routes, and the users who ticked them.
 3. All of those users other ticks, up to a pre-specified number of previous ticks.
 
-It's currently not the most efficient and missing some nice pieces of information, but hopefully it'll
 
-**E.G.** https://www.mountainproject.com/area/113250571/watch-tower-boulder
+
+**Example:** 
+
+Area to Scrape: 
+
+`https://www.mountainproject.com/area/113250571/watch-tower-boulder`
 
 Returned data:
 ```
@@ -39,7 +43,6 @@ tickData  = { route_id = 109593707, user_id = 7040154, route_type = Boulder, rou
 
    { route_id = 113250669, user_id = 7040154, route_type = Boulder, route_grade = 'V2' , route_notes = 'Jul 11, 2017', route_name = 'Pending Approval' }
 ```
-
 
 
 ## Getting Started
@@ -56,7 +59,7 @@ To get a local copy up and running follow these simple steps.
 * python-dotenv
 
 ```sh
-sudo apt-get install python3 python3-dev python-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev git
+sudo apt-get install python3 python3-dev python3-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev git
 ```
 
 
@@ -68,15 +71,20 @@ git clone https://github.com/BenjaminBuss/mountain_project_crawler.git
 ```
 2. Install additional Python packages
 ```sh
-pip install scrapy botocore python-dotenv
+pip3 install scrapy botocore python-dotenv
 ```
 
 Botocore is required for using S3 for more information you can check out the repository [here](https://github.com/boto/botocore)
 
 Additionally, `python-dotenv` is used in setting.py to provide a rudimentary level of security to the AWS credentials. For more information and a walk through on how to use it check out the repository [here](https://github.com/theskumar/python-dotenv).
 
-To set up your AWS credentials you need to create a `.env` file in the same level as `setting.py`, in this file you just need to add the following two lines, obviously replacing `ACCESS_KEY` AND `SECRET_KEY` with their respective values.
+To set up your AWS credentials you need to create a `.env` file in the same level as `setting.py`. You can create a `.env` file with the following command:
+```
+touch .env
+nano .env
+```
 
+Then in this file you just need to add the following two lines, obviously replacing `ACCESS_KEY` AND `SECRET_KEY` with their respective values.
 ```
 AWS_ACCESS_KEY_ID =  [ACCESS_KEY]
 AWS_SECRET_ACCESS_KEY = [SECRET_KEY]
@@ -84,13 +92,14 @@ AWS_SECRET_ACCESS_KEY = [SECRET_KEY]
 
 After adding in the credentials you need to updated the bucket name in all three places in the `FEEDS` argument of `settings.py` from *mpcrawlerdump* to your buckets name.
 
+
 ## Usage
 
-Before running the script, you need to set the `FEED` to your preferred export method. An Amazon S3 Bucket was originally used. For more information on Feed Exports check out the Scrapy documentation [here](https://docs.scrapy.org/en/latest/topics/feed-exports.html), alternatively the [Data Format](#yielded-data-formatting) subsection has more information on what data is returned and how it is meant to be handled/stored.
+This spider is historically run on an Amazon AWS t2.micro EC2 instance, with the data being dumped into a S3 bucket, however you can run it on local machine and have it export locally as well.
 
-After the feeds have been specified, you can navigate to the project directory and run it. When running the mpScraper spider you have two possible arguments.
+After you've clone the repository, navigate to the project directory and run it. When running the mpScraper spider you have two possible arguments.
 
-* Domain: *string*, **required**, the initial URL of the area to scrape.
+* Domain: *string*, **required**, the initial URL of the area to scrape(typically you'd want the URL to be an area, but if you scrape a single route it will still work as intended).
     * EG: https://www.mountainproject.com/area/118272520/wales-canyon
 * Pages: *int, default 10*, the number of pages of user ticks to scrape(per user).
 
@@ -149,22 +158,18 @@ route_name | *string* | The name of the route.
 *
 *
 
+
 ## Roadmap
 
 **MY FAVORITE PAST TIME IS ADDING UNNEEDED SPACE BETWEEN PARAGRAPHS IN TEXT FILES BUT MARKDOWN DOESN'T LET ME**
 
 Until I figure out how this open issues things works I'm going to keep a light list here
 
-* Add more data to route information
-    * Stars, shared date, route type, height, comments, site activity, etc.
 * Add ability to scrape more user data(forum posts)
+* Ability to use Proxies? https://github.com/aivarsk/scrapy-proxies
 
 
 See the [open issues](https://github.com/benjaminbuss/mountain_project_crawler/issues) for a list of proposed features (and known issues).
-
-
-https://github.com/aivarsk/scrapy-proxies
-
 
 
 ## Contributing
@@ -185,10 +190,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
+Benjamin Buss - [@twitter_handle](https://twitter.com/twitter_handle) - email
 
-Project Link: [https://github.com/benjaminbuss/mountain_project_crawler](https://github.com/benjaminbuss/mountain_project_crawler)
-
-
-
+Project Link: [https://github.com/benjaminbuss/mountain_project_crawler](https://github.com/BenjaminBuss/mountain_project_crawler)
 
