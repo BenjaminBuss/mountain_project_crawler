@@ -10,19 +10,19 @@ import scrapy
 # Initializes scrapy Items for tickScraper spider
 class routeData(scrapy.Item):
     id = scrapy.Field()
-    id_route = scrapy.Field()
-    name_route = scrapy.Field()
-    grade_route = scrapy.Field()
-    stars_route = scrapy.Field()
-    type_route = scrapy.Field()
-    fa_route = scrapy.Field()
-    views_route = scrapy.Field()
-    date_route = scrapy.Field()
+    route_id = scrapy.Field()
+    route_name = scrapy.Field()
+    route_grade = scrapy.Field()
+    route_stars = scrapy.Field()
+    route_type = scrapy.Field()
+    route_fa = scrapy.Field()
+    route_views = scrapy.Field()
+    route_share = scrapy.Field()
 
 class userTicks(scrapy.Item):
     id = scrapy.Field()
-    user = scrapy.Field()
-    route = scrapy.Field()
+    user_id = scrapy.Field()
+    route_id = scrapy.Field()
 
 class tickData(scrapy.Item):
     id = scrapy.Field()

@@ -59,14 +59,14 @@ class ProjectSpider(scrapy.Spider):
 
         route_info = routeData()
         route_info['id'] = 'route'
-        route_info['id_route'] = route_id
-        route_info['name_route'] = route_name
-        route_info['grade_route'] = route_grade
-        route_info['stars_route'] = route_stars
-        route_info['type_route'] = route_type
-        route_info['fa_route'] = route_fa
-        route_info['views_route'] = route_views
-        route_info['date_route'] = route_date
+        route_info['id_route_d'] = route_id
+        route_info['route_name'] = route_name
+        route_info['route_grade'] = route_grade
+        route_info['route_stars'] = route_stars
+        route_info['route_type'] = route_type
+        route_info['route_fa'] = route_fa
+        route_info['route_voews'] = route_views
+        route_info['route_share'] = route_date
 
         yield route_info
         yield response.follow(url=route_subinfo, callback=self.get_users)
@@ -82,8 +82,8 @@ class ProjectSpider(scrapy.Spider):
 
             ticks = userTicks()
             ticks['id'] = 'tick'
-            ticks['user'] = user_id[0]
-            ticks['route'] = route_id[0]
+            ticks['user_id'] = user_id[0]
+            ticks['route_id'] = route_id[0]
 
             yield ticks
             yield response.follow(url=tick_url, callback=self.parse_user)
