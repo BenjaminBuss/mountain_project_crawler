@@ -34,7 +34,7 @@ class ProjectSpider(scrapy.Spider):
             elif thread_id == 103989416:
                 continue
             else:
-                print("Sub ID", str(thread_id[0]))
+                # print("Sub ID", str(thread_id[0]))
                 yield response.follow(url = url, callback = self.parse_sub)
 
     def parse_sub(self, response):
@@ -55,7 +55,7 @@ class ProjectSpider(scrapy.Spider):
             if not topic_id:
                 continue
             else:
-                print("Topic ID", str(topic_id[0]))
+                # print("Topic ID", str(topic_id[0]))
                 yield response.follow(url =url, callback=self.parse_thread)
 
     def parse_thread(self, response):
@@ -77,5 +77,5 @@ class ProjectSpider(scrapy.Spider):
         elif mess_dates[-1] > '2020-01-01':
             return
         else:
-            print("Thread ID", str(thread_id[0]), " Date", str(mess_dates[-1]))
+            # print("Thread ID", str(thread_id[0]), " Date", str(mess_dates[-1]))
             yield response.follow(url=pagination, callback = self.parse_user)
