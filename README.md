@@ -1,6 +1,9 @@
+
 # Mountain Project Tick Scraper
 
 Have you ever wanted a near unending amount of very niche data? Do you want to feel bad about pulling all this data from a site that provides a quality service for free? Well I have just the script for you. 
+
+You can check out Mountain Project [here](https://www.mountainproject.com/). And MPs terms of service [here](https://www.adventureprojects.net/ap-terms). For a more legimiate an possibly simplier method you can see the documentation for Mountain Project's API [here](https://www.mountainproject.com/data).
 
 
 ## Table of Contents
@@ -25,6 +28,7 @@ This scraper is designed for you to be able to scrape several pieces of data fro
 2. All of the ticks for each of those routes, and the users who ticked them.
 3. All of those users other ticks, up to a pre-specified number of previous ticks.
 
+Originally I had hoped to upload the three pieces of data into three separate folders in the S3 bucket but I was too dumb to figure out how to change the feed uri of S3 buckets in an item pipeline. So the data instead dumps all three pieces into a series of jumbled json files.
 
 
 **Example:** 
@@ -35,23 +39,19 @@ Area to Scrape:
 
 Returned data:
 ```
-routeData = { route_id = 113250669, route_name = 'Pending Approval', route_grade = 'V2', route_stars = 'Avg: 3.8 from 4 votes', route_type = 'Boulder, 30ft(9m)', route_fa = 'unknown', route_views = '496 total, 12/month', route_share = 'July 3, 2017' }
-
-userTicks = { route_id = 113250669, user_id = 7040154 }
-
-tickData  = { route_id = 109593707, user_id = 7040154, route_type = Boulder, route_grade = 'V6-', route_notes = 'Nov 26, 2017', route_name = 'The Round Room' }, 
-
-   { route_id = 113250669, user_id = 7040154, route_type = Boulder, route_grade = 'V2' , route_notes = 'Jul 11, 2017', route_name = 'Pending Approval' }
+{'id': 'route', 'route_id': 113250669, 'route_name': 'Pending Approval', 'route_grade': 'V2', 'route_stars': 'Avg: 3.8 from 4 votes', 'route_type': 'Boulder, 30ft(9m)', 'route_fa': 'unknown', 'route_views': '496 total, 12/month', 'route_share': 'July 3, 2017'}
+{'id': 'tick', 'route_id': 113250669, 'user_id': 7040154}
+{'id': 'usti', 'route_id': 109593707, 'user_id': 7040154, 'route_type': 'Boulder', 'route_grade': 'V6-', 'route_notes': 'Nov 26, 2017', 'route_name': 'The Round Room'} 
+{'id': 'usti', 'route_id': 113250669, 'user_id': 7040154, 'route_type': 'Boulder', 'route_grade': 'V2' , 'route_notes': 'Jul 11, 2017', 'route_name': 'Pending Approval'}
 ```
 
 
 ## Getting Started
 
-To get a local copy up and running follow these simple steps.
+To get a local copy up and running follow these steps.
 
 
 ### Prerequisites
-
 
 * python3
 * scrapy
@@ -69,14 +69,13 @@ sudo apt-get install python3 python3-dev python3-pip libxml2-dev libxslt1-dev zl
 ```sh
 git clone https://github.com/BenjaminBuss/mountain_project_crawler.git
 ```
+
 2. Install additional Python packages
 ```sh
 pip3 install scrapy botocore python-dotenv
 ```
 
-Botocore is required for using S3 for more information you can check out the repository [here](https://github.com/boto/botocore)
-
-Additionally, `python-dotenv` is used in setting.py to provide a rudimentary level of security to the AWS credentials. For more information and a walk through on how to use it check out the repository [here](https://github.com/theskumar/python-dotenv).
+Botocore is required for using S3 for more information you can check out the repository [here](https://github.com/boto/botocore). Additionally, `python-dotenv` is used in setting.py to provide a rudimentary level of security to the AWS credentials. For more information and a walk through on how to use it check out the repository [here](https://github.com/theskumar/python-dotenv).
 
 To set up your AWS credentials you need to create a `.env` file in the same level as `setting.py`. You can create a `.env` file with the following command:
 ```
@@ -90,7 +89,7 @@ AWS_ACCESS_KEY_ID =  [ACCESS_KEY]
 AWS_SECRET_ACCESS_KEY = [SECRET_KEY]
 ```
 
-After adding in the credentials you need to updated the bucket name in all three places in the `FEEDS` argument of `settings.py` from *mpcrawlerdump* to your buckets name.
+After adding in the credentials you need to updated the bucket name in all three places in the `FEEDS` argument of `settings.py` from *mpcrawlerdump* to your buckets name. And specify the bucket region in `AWS_REGION_NAME`.
 
 
 ## Usage
@@ -124,6 +123,7 @@ Three different scrapy items are returned through the running of the script:
 
 Name | Type | Description
 ---- | ---- | -----------
+id | *string* | Used to identify the json
 route_id | *int* | Numerical identifier for the route pulled from the Mountain Project URL.
 route_name | *string* | The routes name.
 route_grade | *string* | The routes YDS or V-scale grade.
@@ -131,12 +131,13 @@ route_stars | *string* | The number of stars(out of four), and opinions that lea
 route_type | *string* | The type(Boulder, Sport, Trad, Alpine).
 route_fa | *string* | The first ascensionists name.
 route_views | *string* | The number of total views and views per week/month/year.
-route_date | *string* | The date the route was originally shared.
+route_share | *string* | The date the route was originally shared.
 
 2. **User Ticks**
 
 Name | Type | Description
 ---- | ---- | -----------
+id | *string* | Used to identify the json
 user_id | *int* | Numerical identifier for the user pulled from the MP URL.
 route_id | *int* | Numerical identifier for the route pulled from the MP URL.
 
@@ -144,6 +145,7 @@ route_id | *int* | Numerical identifier for the route pulled from the MP URL.
 
 Name | Type | Description
 ---- | ---- | -----------
+id | *string* | Used to identify the json
 user_id | *int* | Numerical identifier for the user pulled from the MP URL.
 route_id | *int* | Numerical identifier for the route pulled from MP URL.
 route_type | *string* | Type(Boulder, Sport, Trad, Alpine).
@@ -152,22 +154,7 @@ route_notes | *string* | Any notes about send type(flash, onsight, attempt) as w
 route_name | *string* | The name of the route.
 
 
-
-*
-*
-*
-*
-
-
 ## Roadmap
-
-**MY FAVORITE PAST TIME IS ADDING UNNEEDED SPACE BETWEEN PARAGRAPHS IN TEXT FILES BUT MARKDOWN DOESN'T LET ME**
-
-Until I figure out how this open issues things works I'm going to keep a light list here
-
-* Add ability to scrape more user data(forum posts)
-* Ability to use Proxies? https://github.com/aivarsk/scrapy-proxies
-
 
 See the [open issues](https://github.com/benjaminbuss/mountain_project_crawler/issues) for a list of proposed features (and known issues).
 
@@ -193,4 +180,3 @@ Distributed under the MIT License. See `LICENSE` for more information.
 Benjamin Buss - [@twitter_handle](https://twitter.com/twitter_handle) - email
 
 Project Link: [https://github.com/benjaminbuss/mountain_project_crawler](https://github.com/BenjaminBuss/mountain_project_crawler)
-
