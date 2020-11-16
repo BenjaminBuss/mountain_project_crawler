@@ -32,3 +32,10 @@ class tickData(scrapy.Item):
     route_grade = scrapy.Field()
     route_notes = scrapy.Field()
     route_name = scrapy.Field()
+
+# Initialized scrapy Items for forumScraper spider
+class forumData(scrapy.Item):
+    thread_id = scrapy.Field()
+    user_id = scrapy.Field()
+    mess_date = scrapy.Field()
+
