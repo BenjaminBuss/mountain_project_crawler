@@ -39,3 +39,12 @@ class forumData(scrapy.Item):
     user_id = scrapy.Field()
     mess_date = scrapy.Field()
 
+# Item for userScraper spider
+class userData(scrapy.Item):
+    user_id = scrapy.Field()
+    route_id = scrapy.Field()
+    route_type = scrapy.Field()
+    route_grade = scrapy.Field()
+    route_notes = scrapy.Field()
+    route_name = scrapy.Field()
+
