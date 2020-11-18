@@ -72,10 +72,13 @@ class ProjectSpider(scrapy.Spider):
             post['mess_date'] = item[1]
             yield post
 
+        f = lambda x: x.split(",")[-1].strip()
+        year = mess_dates.apply(f, axis=1)
+        
         if not pagination:
             return
-        elif mess_dates[-1] > '2020-01-01':
+        elif year < 2020:
             return
         else:
             # print("Thread ID", str(thread_id[0]), " Date", str(mess_dates[-1]))
-            yield response.follow(url=pagination, callback = self.parse_user)
+            yield response.follow(url=pagination, callback = self.parse_thread)
