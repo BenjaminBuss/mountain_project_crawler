@@ -19,6 +19,9 @@ def return_ele(x):
     except IndexError:
         return 1
 
+def strip_year(x):
+    return x.split(",")[-1].strip()
+
 class ProjectSpider(scrapy.Spider):
     name = 'forumCrawler'
     allowed_domains = ['mountainproject.com']
@@ -34,7 +37,6 @@ class ProjectSpider(scrapy.Spider):
             elif thread_id == 103989416:
                 continue
             else:
-                # print("Sub ID", str(thread_id[0]))
                 yield response.follow(url = url, callback = self.parse_sub)
 
     def parse_sub(self, response):
@@ -55,14 +57,12 @@ class ProjectSpider(scrapy.Spider):
             if not topic_id:
                 continue
             else:
-                # print("Topic ID", str(topic_id[0]))
                 yield response.follow(url =url, callback=self.parse_thread)
 
     def parse_thread(self, response):
         thread_id = strip_id(response.url)
         user_ids = response.css('table[id*=forum-table]  tr[id*=ForumMessage]::attr(data-user-id)').getall()
         mess_dates = response.css("a[class='permalink'] *::text").getall()
-
         pagination = response.css('div.pagination a:nth-child(4) ::attr(href)').get()
 
         for item in zip(user_ids, mess_dates):
@@ -72,13 +72,11 @@ class ProjectSpider(scrapy.Spider):
             post['mess_date'] = item[1]
             yield post
 
-        f = lambda x: x.split(",")[-1].strip()
-        year = mess_dates.apply(f, axis=1)
-        
+        year = strip_year(mess_dates)
+
         if not pagination:
             return
         elif year < 2020:
             return
         else:
-            # print("Thread ID", str(thread_id[0]), " Date", str(mess_dates[-1]))
             yield response.follow(url=pagination, callback = self.parse_thread)
