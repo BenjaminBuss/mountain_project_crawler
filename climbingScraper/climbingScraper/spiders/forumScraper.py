@@ -20,7 +20,11 @@ def return_ele(x):
         return 1
 
 def strip_year(x):
-    return x.split(",").strip()
+    z = x.split(",")[-1]
+    try:
+        return int(z)
+    except ValueError:
+        return 2019
 
 class ProjectSpider(scrapy.Spider):
     name = 'forumCrawler'
