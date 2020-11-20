@@ -20,7 +20,7 @@ def return_ele(x):
         return 1
 
 def strip_year(x):
-    return x.split(",")[-1].strip()
+    return x.split(",").strip()
 
 class ProjectSpider(scrapy.Spider):
     name = 'forumCrawler'
@@ -72,7 +72,7 @@ class ProjectSpider(scrapy.Spider):
             post['mess_date'] = item[1]
             yield post
 
-        year = strip_year(mess_dates)
+        year = strip_year(mess_dates[-1])
 
         if not pagination:
             return
