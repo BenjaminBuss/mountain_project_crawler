@@ -80,7 +80,7 @@ class ProjectSpider(scrapy.Spider):
 
         if not pagination:
             return
-        elif year < 2020:
+        elif year == 2020:
             return
         else:
             yield response.follow(url=pagination, callback = self.parse_thread)
