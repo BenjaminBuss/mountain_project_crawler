@@ -20,7 +20,11 @@ def return_ele(x):
         return 1
 
 def strip_year(x):
-    return x.split(",").strip()
+    z = x.split(",")[-1]
+    try:
+        return int(z)
+    except ValueError:
+        return 2019
 
 class ProjectSpider(scrapy.Spider):
     name = 'forumCrawler'
@@ -76,7 +80,7 @@ class ProjectSpider(scrapy.Spider):
 
         if not pagination:
             return
-        elif year < 2020:
+        elif year == 2020:
             return
         else:
             yield response.follow(url=pagination, callback = self.parse_thread)
