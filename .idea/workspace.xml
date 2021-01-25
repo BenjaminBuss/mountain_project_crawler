@@ -20,10 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e6d6ac59-ca1a-461b-a97c-7c0a14f2a7b5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/climbingScraper/climbingScraper/spiders/forumScraper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/climbingScraper/climbingScraper/items.py" beforeDir="false" afterPath="$PROJECT_DIR$/climbingScraper/climbingScraper/items.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/climbingScraper/climbingScraper/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/climbingScraper/climbingScraper/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/climbingScraper/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/climbingScraper/climbingScraper/spiders/forumScraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/climbingScraper/climbingScraper/spiders/forumScraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/climbingScraper/climbingScraper/spiders/tickScraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/climbingScraper/climbingScraper/spiders/tickScraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/climbingScraper/climbingScraper/spiders/userScraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/climbingScraper/climbingScraper/spiders/userScraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/get_forum_posts.py" beforeDir="false" afterPath="$PROJECT_DIR$/get_forum_posts.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +54,49 @@
     <property name="last_opened_file_path" value="$USER_HOME$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.create_user_profile">
+    <configuration name="create_user_profile" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mountain_project_crawler" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/create_user_profile.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="get_forum_posts" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="mountain_project_crawler" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/get_forum_posts.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="settings" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="mountain_project_crawler" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -75,6 +120,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.create_user_profile" />
+        <item itemvalue="Python.get_forum_posts" />
         <item itemvalue="Python.settings" />
       </list>
     </recent_temporary>
@@ -92,46 +139,12 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="1763" y="1458" width="615" height="357" key="#Notifications" timestamp="1605053145831">
-      <screen x="1080" y="1080" width="1920" height="1080" />
-    </state>
-    <state x="1763" y="1458" width="615" height="357" key="#Notifications/1080.1080.1920.1080/0.0.1080.1920/1080.0.1920.1080@1080.1080.1920.1080" timestamp="1605053145831" />
-    <state width="1825" height="351" key="GridCell.Tab.0.bottom" timestamp="1605052537220">
-      <screen x="1080" y="1080" width="1920" height="1080" />
-    </state>
-    <state width="1825" height="351" key="GridCell.Tab.0.bottom/1080.1080.1920.1080/0.0.1080.1920/1080.0.1920.1080@1080.1080.1920.1080" timestamp="1605052537220" />
-    <state width="1825" height="351" key="GridCell.Tab.0.center" timestamp="1605052537220">
-      <screen x="1080" y="1080" width="1920" height="1080" />
-    </state>
-    <state width="1825" height="351" key="GridCell.Tab.0.center/1080.1080.1920.1080/0.0.1080.1920/1080.0.1920.1080@1080.1080.1920.1080" timestamp="1605052537220" />
-    <state width="1825" height="351" key="GridCell.Tab.0.left" timestamp="1605052537220">
-      <screen x="1080" y="1080" width="1920" height="1080" />
-    </state>
-    <state width="1825" height="351" key="GridCell.Tab.0.left/1080.1080.1920.1080/0.0.1080.1920/1080.0.1920.1080@1080.1080.1920.1080" timestamp="1605052537220" />
-    <state width="1825" height="351" key="GridCell.Tab.0.right" timestamp="1605052537220">
-      <screen x="1080" y="1080" width="1920" height="1080" />
-    </state>
-    <state width="1825" height="351" key="GridCell.Tab.0.right/1080.1080.1920.1080/0.0.1080.1920/1080.0.1920.1080@1080.1080.1920.1080" timestamp="1605052537220" />
-    <state width="1825" height="351" key="GridCell.Tab.1.bottom" timestamp="1605052537220">
-      <screen x="1080" y="1080" width="1920" height="1080" />
-    </state>
-    <state width="1825" height="351" key="GridCell.Tab.1.bottom/1080.1080.1920.1080/0.0.1080.1920/1080.0.1920.1080@1080.1080.1920.1080" timestamp="1605052537220" />
-    <state width="1825" height="351" key="GridCell.Tab.1.center" timestamp="1605052537220">
-      <screen x="1080" y="1080" width="1920" height="1080" />
-    </state>
-    <state width="1825" height="351" key="GridCell.Tab.1.center/1080.1080.1920.1080/0.0.1080.1920/1080.0.1920.1080@1080.1080.1920.1080" timestamp="1605052537220" />
-    <state width="1825" height="351" key="GridCell.Tab.1.left" timestamp="1605052537220">
-      <screen x="1080" y="1080" width="1920" height="1080" />
-    </state>
-    <state width="1825" height="351" key="GridCell.Tab.1.left/1080.1080.1920.1080/0.0.1080.1920/1080.0.1920.1080@1080.1080.1920.1080" timestamp="1605052537220" />
-    <state width="1825" height="351" key="GridCell.Tab.1.right" timestamp="1605052537220">
-      <screen x="1080" y="1080" width="1920" height="1080" />
-    </state>
-    <state width="1825" height="351" key="GridCell.Tab.1.right/1080.1080.1920.1080/0.0.1080.1920/1080.0.1920.1080@1080.1080.1920.1080" timestamp="1605052537220" />
-    <state x="1294" y="1376" width="1022" height="737" key="SettingsEditor" timestamp="1605053442738">
-      <screen x="1080" y="1080" width="1920" height="1080" />
-    </state>
-    <state x="1294" y="1376" width="1022" height="737" key="SettingsEditor/1080.1080.1920.1080/0.0.1080.1920/1080.0.1920.1080@1080.1080.1920.1080" timestamp="1605053442738" />
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="user_ticks" language="Python" />
+        <watch expression="user_ticks" language="Python" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

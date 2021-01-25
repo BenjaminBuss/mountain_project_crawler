@@ -1,5 +1,5 @@
 # ----------------------------
-# scrapy scraper called mpScraper used to obtain tick information for specified area
+# scrapy crawler called forumScraper used to obtain all forum posts from 2020 except posts in the 'For Sale' section.
 #
 # Benjamin Buss, www.github.com/BenjaminBuss
 # ----------------------------
@@ -9,17 +9,20 @@ import re
 from ..items import forumData
 
 def strip_id(url):
+    # Used to strip out the post id or any other of Mountain Project's ids.
     temp_regex = re.findall(r'\d+', url)
     temp_stripped = list(map(int, temp_regex))
     return temp_stripped
 
 def return_ele(x):
+    # Also used along side strip_id? I dunno I didn't document this shit when actually writing it.
     try:
         return x[1]
     except IndexError:
         return 1
 
 def strip_year(x):
+    #Strips the year, the try catch is for when Mountain project gives you a shit string date, such as "6 days ago".
     z = x.split(",")[-1]
     try:
         return int(z)
@@ -27,7 +30,7 @@ def strip_year(x):
         return 2019
 
 class ProjectSpider(scrapy.Spider):
-    name = 'forumCrawler'
+    name = 'forumScraper'
     allowed_domains = ['mountainproject.com']
     start_urls = ['https://www.mountainproject.com/forum']
 
@@ -39,6 +42,7 @@ class ProjectSpider(scrapy.Spider):
             if not thread_id:
                 continue
             elif thread_id == 103989416:
+                # Skip if in 'For Free' section.
                 continue
             else:
                 yield response.follow(url = url, callback = self.parse_sub)
