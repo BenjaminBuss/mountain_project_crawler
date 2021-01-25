@@ -1,5 +1,5 @@
 # ----------------------------
-# scrapy scraper called mpScraper used to obtain tick information for specified area
+# scrapy scraper called tickScraper used to obtain tick information for specified area
 #
 # Benjamin Buss, www.github.com/BenjaminBuss
 # ----------------------------
@@ -20,7 +20,7 @@ def return_ele(x):
         return 1
 
 class ProjectSpider(scrapy.Spider):
-    name = 'mpScraper'
+    name = 'tickScraper'
     allowed_domains = ['mountainproject.com']
 
     def __init__(self, domain='', pages='10', *args, **kwargs):

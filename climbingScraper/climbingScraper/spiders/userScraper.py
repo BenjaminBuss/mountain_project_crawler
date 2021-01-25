@@ -35,6 +35,11 @@ class ProjectSpider(scrapy.Spider):
 
     start_urls = [url.strip() for url in grid_sizes['url']]
 
+    def __init__(self, pages='10', *args, **kwargs):
+        # Provides ability to specify pages scraped.
+        super(ProjectSpider, self).__init__(*args, **kwargs)
+        self.page_max = int(f'{pages}')
+
     def parse(self, response):
         url = response.url
         url = url + '/ticks'
@@ -79,7 +84,7 @@ class ProjectSpider(scrapy.Spider):
         #       to stop if reached max number of pages
         if not pagination:
             return
-        elif page_number >= 10:
+        elif page_number >= self.page_max:
             return
         else:
             yield response.follow(url=pagination, callback=self.parse_user)
