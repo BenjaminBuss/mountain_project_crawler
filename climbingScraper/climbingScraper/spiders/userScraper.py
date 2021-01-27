@@ -30,7 +30,7 @@ class ProjectSpider(scrapy.Spider):
     client = boto3.client('s3')
     resource = boto3.resource('s3')
     my_bucket = resource.Bucket('mpcrawlerdump')
-    obj = client.get_object(Bucket = 'mpcrawlerdump', Key = 'forumCrawler/tidyied/user_urls.csv')
+    obj = client.get_object(Bucket = 'mpcrawlerdump', Key = 'forumScraper/tidyied/user_urls.csv')
     grid_sizes = read_csv(obj['Body'])
 
     start_urls = [url.strip() for url in grid_sizes['url']]

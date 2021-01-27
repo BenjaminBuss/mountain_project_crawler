@@ -3,10 +3,7 @@
 
 You can check out Mountain Project [here](https://www.mountainproject.com/). And MPs terms of service [here](https://www.adventureprojects.net/ap-terms). For a more legitimate an possibly simpler method you can see the documentation for Mountain Project's API [here](https://www.mountainproject.com/data).
 
-Have you ever wanted a near unending amount of very niche data? Do you want to feel bad about pulling all this data from a site that provides a quality service for free? Well I have just the script for you. 
-
-This repository contains a series of Scrapy spiders and scripts to scrape forum posts, users , and tick data. The data received is used to poke fun at the gumbys who post on the Mountain Project forums.
-
+Have you ever wanted a near unending amount of very niche data? Do you want to feel bad about pulling all this data from a site that provides a quality service for free? Well I have just the script for you. This repository contains a series of Scrapy spiders and scripts to scrape forum posts, users , and tick data. The data received is used to poke fun at the gumbys who post on the Mountain Project forums.
 
 
 ## Table of Contents
@@ -18,7 +15,6 @@ This repository contains a series of Scrapy spiders and scripts to scrape forum 
 * [Usage](#usage)
   * [Spiders](#spiders)
   * [Scripts](#scripts)
-  * [Data Format](#yielded-data-formatting)
 * [Roadmap](#roadmap)
 * [Contributing](#contributing)
 * [License](#license)
@@ -27,28 +23,15 @@ This repository contains a series of Scrapy spiders and scripts to scrape forum 
 
 ## About The Project
 
-This scraper is designed for you to be able to scrape several pieces of data from any Mountain Project Area, and export it to an AWS S3 bucket.
+This scraper is designed for you to be able to scrape enough data for you to try and make fun of the posters on the Mountain Project forums. 
 
-1. All of the routes contained that area(or it's subareas), and basic information like route name, grade, stars, shared date, MP identifier, and more are returned.
-2. All of the ticks for each of those routes, and the users who ticked them.
-3. All of those users other ticks, up to a pre-specified number of previous ticks.
+The two main pieces of data scraped are: 
 
-Originally I had hoped to upload the three pieces of data into three separate folders in the S3 bucket but I was too dumb to figure out how to change the feed uri of S3 buckets in an item pipeline. So the data instead dumps all three pieces into a series of jumbled json files.
+1. All of the forum posts for 2020, who posted them, and when.
 
+2. A pre-specified number of ticks for all the users who at one point or another posted on the forums.
 
-**Example:** 
-
-Area to Scrape: 
-
-`https://www.mountainproject.com/area/113250571/watch-tower-boulder`
-
-Returned data:
-```
-{'id': 'route', 'route_id': 113250669, 'route_name': 'Pending Approval', 'route_grade': 'V2', 'route_stars': 'Avg: 3.8 from 4 votes', 'route_type': 'Boulder, 30ft(9m)', 'route_fa': 'unknown', 'route_views': '496 total, 12/month', 'route_share': 'July 3, 2017'}
-{'id': 'tick', 'route_id': 113250669, 'user_id': 7040154}
-{'id': 'usti', 'route_id': 109593707, 'user_id': 7040154, 'route_type': 'Boulder', 'route_grade': 'V6-', 'route_notes': 'Nov 26, 2017', 'route_name': 'The Round Room'} 
-{'id': 'usti', 'route_id': 113250669, 'user_id': 7040154, 'route_type': 'Boulder', 'route_grade': 'V2' , 'route_notes': 'Jul 11, 2017', 'route_name': 'Pending Approval'}
-```
+Yeah, you can probably see where this is going.
 
 
 ## Getting Started
@@ -99,25 +82,9 @@ After adding in the credentials you need to updated the bucket name in all three
 
 ## Usage
 
-This spider is historically run on an Amazon AWS t2.micro EC2 instance, with the data being dumped into a S3 bucket, however you can run it on local machine and have it export locally as well.
+These spiders and scripts were historically run on an Amazon AWS t2.micro EC2 instance, with the data being dumped into a S3 bucket, however you can run it on local machine and have it export locally as well(With some adjustments to a few of the spiders and scripts). Both of the AWS services used are free for the first 12 months of use.
 
-After you've clone the repository, navigate to the project directory and run it. When running the mpScraper spider you have two possible arguments.
-
-* Domain: *string*, **required**, the initial URL of the area to scrape(typically you'd want the URL to be an area, but if you scrape a single route it will still work as intended).
-    * EG: https://www.mountainproject.com/area/118272520/wales-canyon
-* Pages: *int, default 10*, the number of pages of user ticks to scrape(per user).
-
-Example of scraping the Wales Canyon area:
-```
-scrapy crawl mpScraper -a domain='https://www.mountainproject.com/area/118272520/wales-canyon'
-```
-
-Example using the pages argument to limit the number of pages you scrape to save time and server load.
-```
-scrapy crawl mpScraper -a domain='https://www.mountainproject.com/area/118272520/wales-canyon' -a pages=2
-```
-
-For more documentation on executing scrapy spiders check out the documentation [here](https://docs.scrapy.org/en/latest/topics/commands.html). For more details on spider arguments you can find the documentation [here](https://docs.scrapy.org/en/latest/topics/spiders.html#spider-arguments).
+After you've clone the repository, navigate to the project directory and run it.
 
 
 ### Spiders
@@ -134,19 +101,13 @@ scrapy crawl forumScraper
 
 **Default Scraping Parameters:** All forum posts from 2020 within the first 50 pages of a post with the except of any posts in the 'For Sale' section.
 
-**Data Returned:** thread id, user_id, and message date.
+**Data Returned:** 
 
-
-*Possibly depreciated?*
-#### tickScraper
-
-**Arguments:** Domain, pages(default 10).
-
-**Example Usage:**
-
-**Default Scraping Parameters:**
-
-**Data Returned:**
+Name | Type | Description
+---- | ---- | -----------
+thread_id | *string* | Used to identify the thread the post was in.
+user_id | *int* | Unique identifier of the user.
+mess_date | *date* | The date the message was posted.
 
 
 #### userScraper
@@ -155,63 +116,40 @@ scrapy crawl forumScraper
 
 **Example Usage:**
 ```
-scrapy crawl userScraper -a pages=2
+scrapy crawl userScraper -a pages=20
 ```
 
 **Default Scraping Parameters:** Scrapes from the dataset created after running the forumScraper spider and the `get_forum_posts` script.
 
 **Data Returned:** user_id, route_id, route_type, route_grade, route_notes.
 
-
-### Scripts
-
-#### get_forum_posts
-
-
-
-#### create_user_profile
-
-
-
-
-
-### Yielded Data Formatting 
-
-Three different scrapy items are returned through the running of the script:
-
-1. **Route Data**
-
 Name | Type | Description
 ---- | ---- | -----------
-id | *string* | Used to identify the json
-route_id | *int* | Numerical identifier for the route pulled from the Mountain Project URL.
-route_name | *string* | The routes name.
-route_grade | *string* | The routes YDS or V-scale grade.
-route_stars | *string* | The number of stars(out of four), and opinions that lead to that rating.
-route_type | *string* | The type(Boulder, Sport, Trad, Alpine).
-route_fa | *string* | The first ascensionists name.
-route_views | *string* | The number of total views and views per week/month/year.
-route_share | *string* | The date the route was originally shared.
-
-2. **User Ticks**
-
-Name | Type | Description
----- | ---- | -----------
-id | *string* | Used to identify the json
-user_id | *int* | Numerical identifier for the user pulled from the MP URL.
-route_id | *int* | Numerical identifier for the route pulled from the MP URL.
-
-3. **Tick Data**
-
-Name | Type | Description
----- | ---- | -----------
-id | *string* | Used to identify the json
 user_id | *int* | Numerical identifier for the user pulled from the MP URL.
 route_id | *int* | Numerical identifier for the route pulled from MP URL.
 route_type | *string* | Type(Boulder, Sport, Trad, Alpine).
 route_grade | *string* | The routes YDS or V-scale grade.
 route_notes | *string* | Any notes about send type(flash, onsight, attempt) as well as any additional information users provided.
 route_name | *string* | The name of the route.
+
+
+For more documentation on executing scrapy spiders check out the documentation [here](https://docs.scrapy.org/en/latest/topics/commands.html). For more details on spider arguments you can find the documentation [here](https://docs.scrapy.org/en/latest/topics/spiders.html#spider-arguments).
+
+
+### Scripts
+
+#### get_forum_posts
+
+A simple python script meant to be run after you run the forumScraper spider and before you run the userScraper spider. It does two things: 
+
+1. Create a dataset of how many times each user posted.
+
+2. Created a series of links to all the users who posted to input into the userScraper spider.
+
+
+#### create_user_profile
+
+XYZ
 
 
 ## Roadmap
